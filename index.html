@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title></title>
+    <link rel="stylesheet" href="bower_components/animate.css/animate.min.css" charset="utf-8">
+    <link rel="stylesheet" href="bower_components/materialize/dist/css/materialize.min.css" charset="utf-8">
+  </head>
+  <!-- Pour angular  tout le body est une application qui se nome MyPhoneApp-->
+  <!-- ng-x est une directive a angular -->
+  <body ng-app="MyPhoneApp">
+    <div class="container" ng-controller="MainCtrl">
+      <!--les double accolade sert a afficher les variable scope -->
+      <h1>{{ title }}</h1>
+      <h3>Application Galaxy</h3>
+      <div class="row">
+        <div class="col s12 m3" ng-repeat="smartphones in smartphone">
+          <div class="card">
+            <div class="card-image">
+              <img src="{{ smartphones.image }}">
+              <span class="card-title">{{ smartphones.titre }}</span>
+            </div>
+            <div class="card-content">
+              <p>{{ smartphones.description }}</p>
+            </div>
+            <div class="card-action">
+              <a href="{{smartphones.lien}}">This is a link</a>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+    <div class="container" ng-controller="IpodCtrl">
+      <!--les double accolade sert a afficher les variable scope -->
+      <h3>Ipod catalogue</h3>
+      <h4>Prix moyen des Ipod est de {{ moyenne }}€</h4>
+      <h4>Nombre de produits : {{totalquantite}}</h4>
+      <h4>Nombre de produits en reduc : {{articlereduc}}</h4>
+
+      <div class="collection">
+        <a href="#!" class="collection-item">Nombre d'article en reduction<span class="badge">{{articlereduc}}</span></a>
+      </div>
+
+      <div class="row">
+        <div class="col s12 ">
+        <div class="card-panel grey lighten-5 z-depth-1">
+          <div class="row valign-wrapper">
+            <div class="col s2">
+              <img src="{{ IpodCheap.image }}" alt="" class="circle responsive-img"> <!-- notice the "circle" class -->
+            </div>
+            <div class="col s10">
+              <span class="black-text">
+                <h3>A l'affiche du moin cher : {{ IpodCheap.titre }}</h3>
+                <p>
+                  {{ IpodCheap.description }}
+                </p>
+                <p>
+                  Prix : {{ IpodCheap.prix }}€
+                </p>
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col s12 ">
+      <div class="card-panel grey lighten-5 z-depth-1">
+          <div class="row valign-wrapper">
+            <div class="col s2">
+              <img src="{{ IpodCher.image }}" alt="" class="circle responsive-img"> <!-- notice the "circle" class -->
+            </div>
+            <div class="col s10">
+              <span class="black-text">
+                <h3>A l'affiche du plus cher : {{ prixcher.titre }}</h3>
+                <p>
+                  {{ prixcher.description }}
+                </p>
+                <p>
+                  Prix : {{ prixcher.prix }}€
+                </p>
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+        <div >
+          <ul class="collection">
+            <li class="collection-item avatar" ng-repeat="mp3 in Ipod">
+              <img src="{{ mp3.image }}" alt="" class="circle" >
+
+              <span class="title">{{ mp3.titre }}</span><br/>
+              description :
+              <p>{{ mp3.description }}</p>
+              <p>Prix : {{ mp3.prix }}€</p>
+              <p>Prix reduit : {{ mp3.reducfait }}€</p>
+              <p>Quantités : {{ mp3.quantites }}</p>
+              <p>Reduction : {{ mp3.reduction }}</p>
+              <form action="#">
+                <p>
+                  <input id="{{mp3.titre}}" type="checkbox" value="{{mp3.titre}}" ng-checked="selection.indexOf(mp3.titre) > -1" ng-click="toggleSelection(mp3.titre)" />
+                   <label for="{{mp3.titre}}"></label>
+                   {{mp3.titre}}
+                </p>
+              </form>
+              <div class="card-action">
+                <button ng-click='removeIpod(mp3)' type="button" name="button"><i class="material-icons">delete</i></button>
+                <a href="{{mp3.lien}}">Plus d'info</a>
+              </div>
+              <a href="#!" class="secondary-content"><i class="material-icons">grade</i></a>
+            </li>
+          </ul>
+        </div>
+
+    <button ng-click='removecheck()' type="button" name="button"><i class="material-icons">delete</i></button> Liste Selectionner
+    <div class="">
+      Object Selectionner pret a être supprimer :
+      <p ng-repeat="titre in selection">
+        - <span>{{titre}}</span>
+      </p>
+
+    </div>
+
+      </div>
+    </div>
+
+
+
+
+    <script src="bower_components/angular/angular.min.js"></script>
+    <script src="bower_components/moment/min/moment-with-locales.min.js"></script>
+    <script src="bower_components/underscore/underscore-min.js"></script>
+    <script src="bower_components/jquery/dist/jquery.min.js"></script>
+    <script src="bower_components/materialize/dist/js/materialize.min.js"></script>
+    <script src="main.js" charset="utf-8"></script>
+  </body>
+</html>

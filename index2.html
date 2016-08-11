@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title></title>
+    <link rel="stylesheet" href="bower_components/animate.css/animate.min.css" charset="utf-8">
+    <link rel="stylesheet" href="bower_components/materialize/dist/css/materialize.min.css" charset="utf-8">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  </head>
+  <!-- Pour angular  tout le body est une application qui se nome MyPhoneApp-->
+  <!-- ng-x est une directive a angular -->
+  <body ng-app="Pannier">
+    <div class="container" ng-controller="Boisson">
+      <div class="row">
+        <div class="col s12 m3" ng-repeat="canette in panierBoissons  | orderBy: 'price' ">
+          <div class="card">
+            <div class="card-image">
+              <img src="{{ canette.photo }}">
+              <span class="card-title">{{ smartphones.titre }}</span>
+            </div>
+            <div class="card-content">
+              <p>{{ canette.comments }}</p>
+            </div>
+            <div class="card-action">
+              Prix a l'unité : {{canette.price}}euro <br/>
+              Prix total en quantités : {{canette.reducfait}}euro
+              <p>
+                quantités : {{canette.quantite}}
+              </p>
+            </div>
+          </div>
+        </div>
+        <div class="col s12 m12" >
+          <table class="centered">
+            <thead>
+              <tr>
+                <th>
+                  Action
+                </th>
+                <th>
+                  Item
+                </th>
+                <th>
+                  Quantités
+                </th>
+                <th>
+                  Reduction
+                </th>
+                <th>
+                  Price HT
+                </th>
+                <th>
+                  Price TTC
+                </th>
+                <th>
+                  Price group
+                </th>
+                <th>
+                  Comments
+                </th>
+                <th>
+                  Moyenne des notes
+                </th>
+                <th>
+                  Photo
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr ng-repeat="canette in panierBoissons  | orderBy: 'price' ">
+                <td>
+                  <button ng-click='removeBoisson(canette)' type="button" name="button"><i class="material-icons">delete</i></button>
+                </td>
+                <td>
+                  {{ canette.item }}
+                </td>
+                <td>
+                  {{canette.quantite}}
+                </td>
+                <td>
+                  {{canette.reduction}}
+                </td>
+                <td>
+                  {{canette.price}}euro
+                </td>
+                <td>
+                  {{canette.ttc}}euro
+                </td>
+                <td>
+                  {{canette.reducfait}}euro
+                </td>
+                <td>
+                  <p ng-repeat="canettes in canette.comments">
+                    note : {{canettes.note}}<br/>
+                    {{ canettes.content}}
+                  </p>
+
+                </td>
+                <td >
+                  <p ng-if="canette.moyenne">
+                    {{canette.moyenne}} / 5
+                  </p>
+                </td>
+                <td>
+                  <img src="{{ canette.photo }}">
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+
+      </div>
+      <div class="collection">
+        <a href="#!" class="collection-item">Nombre d'article en reduction<span class="badge">{{articlereduc}}</span></a>
+      </div>
+      <div class="collection">
+        <a href="#!" class="collection-item">Nombre d'article avec commentaire<span class="badge">{{articleComment}}</span></a>
+      </div>
+      <div class="collection">
+        <a href="#!" class="collection-item">Nombre d'article avec 3 et 5 quantités<span class="badge">{{compteurlengthquantite}}</span></a>
+      </div>
+      <div class="collection">
+        <a href="#!" class="collection-item">Nombre d'article en moyenne avec 3 et 5 quantités<span class="badge">{{moyennequantite}}</span></a>
+      </div>
+      <div class="collection">
+        <a href="#!" class="collection-item">Moyenne total des article confondue <span class="badge">{{moyennettNote}}</span></a>
+      </div>
+    </div>
+
+
+
+
+
+    <script src="bower_components/angular/angular.min.js"></script>
+    <script src="bower_components/moment/min/moment-with-locales.min.js"></script>
+    <script src="bower_components/underscore/underscore-min.js"></script>
+    <script src="bower_components/jquery/dist/jquery.min.js"></script>
+    <script src="bower_components/materialize/dist/js/materialize.min.js"></script>
+    <script src="main2.js" charset="utf-8"></script>
+  </body>
+</html>

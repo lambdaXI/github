@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title></title>
+    <link rel="stylesheet" href="bower_components/animate.css/animate.min.css" charset="utf-8">
+    <link rel="stylesheet" href="bower_components/materialize/dist/css/materialize.min.css" charset="utf-8">
+  </head>
+  <!-- Pour angular  tout le body est une application qui se nome MyPhoneApp-->
+  <!-- ng-x est une directive a angular -->
+  <body ng-app="profil">
+    <div class="container" ng-controller="Membre">
+
+
+    <label for="a$index">Nom {{nom}} : </label><input type="text" id="a$index" ng-model="nom" >
+    <label for="a$index">Prenom {{prenom}} : </label><input type="text" id="a$index" ng-model="prenom" >
+    <label for="a$index">age {{age}} : </label><input type="text" id="a$index" ng-model="age" >
+    <label for="a$index">photo {{photo}} : </label><input type="text" id="a$index" ng-model="photo" >
+    <label for="a$index">naissance {{naissance}} : </label><input type="text" id="a$index" ng-model="naissance" >
+    <label for="a$index">noteBac {{noteBac}} : </label><input type="text" id="a$index" ng-model="noteBac" >
+    <label for="a$index">genre {{genre}} : </label><input type="text" id="a$index" ng-model="genre" >
+    <label for="a$index">ville {{ville}} : </label><input type="text" id="a$index" ng-model="ville" >
+    <label for="a$index">biographie {{biographie}} : </label><input type="text" id="a$index" ng-model="biographie" >
+    <label for="a$index">langue {{langue}} : </label><input type="text" id="a$index" ng-model="langue" >
+    <button type="button2" name="button2" ng-click="addUser()" onclick="Materialize.toast('Profil creer!', 4000)">Ajouter Profil</button>
+    <p class="range-field"> Filtrer par note: <br/>
+      <input type="range" id="tet5" min="0" max="20" ng-model="range" ng-change="filterBac(range)"/>
+    </p>
+    <input type="checkbox" id="agen1" ><label for="agen1"></label>{{age1}}
+  <p>
+    Date naissance superrieur filtre
+  </p>
+  <input type="date" ng-model="datesupp" ng-change="fairelog(datesupp)" >
+
+  <label for="est4">{{datesupp}}</label>
+  <p>
+    Par tranche d'age:
+  </p>
+    <input type="radio" id="test4" name="age[]" ng-model="all[$index]" ng-click="filterAge(0)" />
+    <label for="test4">tout age</label>
+    <input type="radio" id="test5" name="age[]" ng-model="all[$index]" ng-click="filterAge(1)"/>
+    <label for="test5">filtrer par 10 a 20 ans</label>
+    <input type="radio" id="test6" name="age[]"  ng-model="all[$index]" ng-click="filterAge(2)"/>
+      <label for="test6">filtrer par 20 a 30 ans</label>
+      <input type="radio" id="test7" name="age[]" ng-model="all[$index]" ng-click="filterAge(3)"/>
+        <label for="test7">filtrer par 30 a 40 ans</label>
+
+    <!-- <input type="radio" id="test4" name="age[]" ng-click="agemin = 0; agemax = 100" value="1"/>
+    <label for="test4">tout age</label>
+    <input type="radio" id="test5" name="age[]" ng-click="agemin = 10; agemax = 20" value="1"/>
+    <label for="test5">filtrer par 10 a 20 ans</label>
+    <input type="radio" id="test6" name="age[]" ng-click="agemin = 20; agemax = 30" value="2"/>
+    <label for="test6">filtrer par 20 a 30 ans</label>
+    <input type="radio" id="test7" name="age[]" ng-click="agemin = 30; agemax = 40" value="3"/>
+    <label for="test7">filtrer par 30 a 40 ans</label> -->
+    <p>Filtrage par Ville :</p>
+    <p>
+      <input name="group1" ng-model="query" type="radio" id="tet4" value="" />
+      <label for="tet4">Toutes Villes</label>
+      <input name="group1" type="radio" ng-model="query" id="tes1"  value="Nimes"/>
+      <label for="tes1">Nimes</label>
+      <input name="group1" type="radio" ng-model="query" id="tes2"  value="Paris" />
+      <label for="tes2">Paris</label>
+      <input class="with-gap" name="group1" ng-model="query" type="radio" id="tes3" value="Lyon" />
+      <label for="tes3">Lyon</label>
+    </p>
+
+      <ul class="collection with-header">
+        <li class="collection-item" ng-repeat="member in listeMembre | filter: {ville: query} | range: agemin : agemax | dateSuperieur : compare | rangeBac: range">
+          Photo : <img src="{{member.photo}}" alt="" width="200" height="200"/><br/>
+          nom : {{member.nom}}<br/>
+          prenom : {{member.prenom}}<br/>
+          Age : {{member.age}}<br/>
+          Date naissance : {{member.naissance}}<br/>
+          Note Bac : {{member.notebac}}<br/>
+          Sexe : {{member.genre}}<br/>
+          Ville : {{member.ville}}<br/>
+          Biographie : {{member.biographie}}<br/>
+          Langue : {{member.langue}}<br/>
+          <button type="button" ng-click="removeUser(member)"> - </button>Kick him
+
+        </li>
+
+      </ul>
+        <div class="collection">
+          <a href="#!" class="collection-item">Nbr d'utilisateur<span ng-if="nbruser > 1 && nbruser != 0">s</span><span class="badge">{{raffraichieUser()}}</span></a>
+        </div>
+        <div class="collection" ng-hide="listeMembre.length == 0">
+          <a href="#!" class="collection-item">Moyenne d'age des users<span class="badge">{{moyennettage()}} ans</span></a>
+        </div>
+        <div class="collection" >
+          <a href="#!" class="collection-item">{{messageMajoriteAge}}</a>
+        </div>
+        <div class="collection" ng-show="listeMembre.length == 0">
+          <a href="#!" class="collection-item">Il n'y a plus d'user</a>
+        </div>
+    </div>
+
+
+
+
+
+
+
+
+
+    <script src="bower_components/angular/angular.min.js"></script>
+    <script src="bower_components/moment/min/moment-with-locales.min.js"></script>
+    <script src="bower_components/underscore/underscore-min.js"></script>
+    <script src="bower_components/jquery/dist/jquery.min.js"></script>
+    <script src="http://momentjs.com/downloads/moment-with-locales.js"></script>
+    <script src="bower_components/materialize/dist/js/materialize.min.js"></script>
+
+    <script type="text/javascript">
+      $(document).ready(function(){
+        $('.tooltipped').tooltip({delay: 50});
+
+        // This will remove the tooltip functionality for the buttons on this page
+        $('.tooltipped').tooltip('remove');
+
+      });
+    </script>
+    <script src="main3.js" charset="utf-8"></script>
+  </body>
+</html>

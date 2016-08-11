@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html>
+   <head>
+      <meta charset="utf-8">
+      <title></title>
+      <!--Import Google Icon Font-->
+      <link href="http://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
+      <link rel="stylesheet" href="bower_components/animate.css/animate.min.css" charset="utf-8">
+      <link rel="stylesheet" href="bower_components/materialize/dist/css/materialize.min.css" charset="utf-8">
+   </head>
+   <body ng-app="MyApp">
+     <div class="container" ng-controller="UsersCtrl">
+
+       <p><span ng-if="users.length < 1">Plus aucun utilisateur</span><span ng-show="users.length > 0">Nombre d'utilisateurs : {{ nbUsers }} utilisateur<span ng-show="users.length > 1">s</span></span></p>
+       <p><span ng-show="users.length > 0">Moyenne d'age : {{ moyenneAge()|number:0 }} ans.
+         <span ng-show="tousMineur()">Il y a que des mineurs.</span></span></p>
+       <div class="row">
+         <div class="col s3">
+            <input name="ville" type="radio" id="all" ng-model="cities"/>
+            <label for="all">Toutes</label>
+         </div>
+          <div class="col s3">
+             <input name="ville" type="radio" id="Lyon" value="Lyon" ng-model="cities"/>
+             <label for="Lyon">Lyon</label>
+          </div>
+          <div class="col s3">
+             <input name="ville" type="radio" id="Marseille" value="Marseille" ng-model="cities" />
+             <label for="Marseille">Marseille</label>
+          </div>
+          <div class="col s3">
+             <input name="ville" type="radio" id="Paris" value="Paris" ng-model="cities"/>
+             <label for="Paris">Paris</label>
+          </div>
+       </div>
+
+       <div class="row">
+         <p class="range-field">
+           <input type="range" id="test5" min="0" max="20" ng-model="notesBac" />
+           <label for="test5">Note au bac</label>
+         </p>
+       </div>
+
+       <div class="row card">
+         <p  ng-repeat="tranche in tranches">
+            <input  ng-model="tranche.checked" value="{{ tranche.data }}"  type="checkbox" id="{{ tranche.data }}" />
+            <label for="{{ tranche.data }}">{{ tranche.data }} ans</label>
+          </p>
+       </div>
+       <div class="row">
+          <input type="date" class="datepicker" ng-model="date">
+       </div>
+
+ <div class="row">
+     <div class="card sticky-action col s4 m4 sticky-action" ng-repeat="user in users | naissance:date | filter:cities|range:tranches|notes:notesBac">
+        <div class="card-image waves-effect waves-block waves-light">
+           <img class="activator" src="{{ user.photo }}" width="250px" height="250px">
+        </div>
+        <div class="card-content">
+          <p>Sexe: <b>{{ user.sexe|sexe }}</b></p>
+          <p>Age: <b>{{ user.age }} ans</b></p>
+          <small><i>né <b>{{ user.birthday|date:'dd/MM/yyyy' }} </b></small>
+           <p class="sizeP"><span class="card-title activator grey-text text-darken-4">{{ user.nom }} {{ user.prenom }}<i class="small material-icons right">more_vert</i></span></p>
+        </div>
+        <div class="card-action">
+           <button ng-click="removeUser(user)" class="waves-effect waves-light btn">Supprimer<i class="material-icons">not_interested</i></button>
+        </div>
+       <div class="card-reveal">
+         <span class="card-title grey-text text-darken-4">Biographie<i class="material-icons right">close</i></span>
+         <p>{{ user.biographie }}</p>
+       </div>
+     </div>
+     </div>
+
+
+     <div class="row">
+
+       <form class="col s12" ng-submit="add()">
+           <div class="row">
+             <div class="input-field col s6">
+               <input ng-model="sexe" id="mec" value="true" name="sexe" type="radio" class="validate">
+               <label for="mec">Homme</label>
+               <input  ng-model="sexe" id="nana"  value="false" name="sexe" type="radio" class="validate">
+               <label for="nana">Femme</label>
+             </div>
+             <div class="clearfix clear"> </div>
+             <div class="input-field col s6">
+               <input ng-model="prenom" ng-trim="true" id="first_name" type="text" class="validate">
+               <label for="first_name">First Name</label>
+             </div>
+             <div class="input-field col s6">
+               <input ng-model="nom" ng-trim="true" id="last_name" type="text" class="validate">
+               <label for="last_name">Lastname</label>
+             </div>
+             <div class="input-field col s3">
+               <input ng-model="age" ng-trim="true" id="age" type="text" class="validate">
+               <label for="age">Age</label>
+             </div>
+             <div class="input-field col s6">
+               <input ng-model="photo" ng-trim="true" id="photo" type="text" class="validate">
+               <label for="photo">Photo</label>
+             </div>
+             <div class="input-field col s6">
+               <input ng-model="dob" ng-trim="true" id="dob" type="date" class="validate">
+               <label for="dob">Date de naissance</label>
+             </div>
+             <div class="input-field col s6">
+               <input ng-model="city" id="lyon" value="Lyon" name="city" type="radio" class="validate">
+               <label for="lyon">Lyon</label>
+               <input ng-model="city" id="paris" value="Paris" name="city" type="radio" class="validate">
+               <label for="paris">Paris</label>
+               <input ng-model="city" id="marseille" value="Marseille" name="city" type="radio" class="validate">
+               <label for="marseille">Marseille</label>
+             </div>
+             <div class="input-field col s6">
+               <input ng-model="noteauBac" ng-trim="true" id="bac" type="text" class="validate">
+               <label for="bac">Note Bac</label>
+             </div>
+             <div class="input-field col s6">
+               <textarea ng-model="biographie" ng-trim="true" id="biographie" class="materialize-textarea"></textarea>
+               <label for="biographie">Biographie</label>
+             </div>
+             <div class="input-field col 12">
+              <button type="submit" class="waves-effect waves-light btn" name="button">Enregistrer cet utilisaturs</button>
+             </div>
+           </div>
+         </form>
+
+     </div>
+
+
+   </div>
+
+    <!-- Librairie Angular -->
+    <script src="bower_components/angular/angular.min.js" charset="utf-8"></script>
+
+
+    <!-- Librairie Angular i18n -->
+    <script src="bower_components/angular-i18n/angular-locale_fr-fr.js" charset="utf-8"></script>
+
+    <!-- Librairie Moment -->
+    <script src="bower_components/moment/min/moment-with-locales.min.js" charset="utf-8"></script>
+    <!-- Librairie Underscore -->
+    <script src="bower_components/underscore/underscore-min.js" charset="utf-8"></script>
+    <!-- Librairie Jquery -->
+    <script src="bower_components/jquery/dist/jquery.min.js" charset="utf-8"></script>
+    <!-- Librairie Materialize -->
+    <script src="bower_components/materialize/dist/js/materialize.min.js" charset="utf-8"></script>
+
+    <!-- Notre app -->
+    <script src="src/app.js" charset="utf-8"></script>
+
+
+    <!-- Filters -->
+    <script src="src/filters.js" charset="utf-8"></script>
+
+    <!-- Notre controllers -->
+    <script src="src/controllers/carnets.controllers.js" charset="utf-8"></script>
+
+
+   </body>
+</html>

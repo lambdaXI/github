@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html>
+   <head>
+      <meta charset="utf-8">
+      <title></title>
+      <!--Import Google Icon Font-->
+      <link href="http://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
+      <link rel="stylesheet" href="bower_components/animate.css/animate.min.css" charset="utf-8">
+      <link rel="stylesheet" href="bower_components/materialize/dist/css/materialize.min.css" charset="utf-8">
+   </head>
+   <body ng-app="MyApp">
+
+     <nav>
+        <div class="nav-wrapper">
+          <a href="#" class="brand-logo"><i class="material-icons">shopping_cart</i>Panier de produit</a>
+          <ul id="nav-mobile" class="right hide-on-med-and-down">
+            <li><a href="sass.html">Sass</a></li>
+            <li><a href="badges.html">Components</a></li>
+            <li><a href="collapsible.html">JavaScript</a></li>
+          </ul>
+        </div>
+      </nav>
+
+
+      <div class="container" ng-controller="PanierCtrl">
+               <h1>Nombre de produit {{ panierBoissons.length}}</h1>
+
+               <p class="badge">
+                 Prix moyen:  <b>{{ prixMoyen|number:3 }}</b>€
+               </p>
+               <p class="badge">
+                 Prix HT:  <b>{{ prixHT|number:3 }}</b>€
+               </p>
+              <p class="badge">
+                Prix TTC:  <b>{{ prixTtc|number:3 }}</b>€
+              </p>
+
+              <p class="badge">
+                Nombre de produits qui ont des commentaires:  <b>{{ nbProdCommente() }}</b>
+                produit<span ng-show='nbProdCommente() > 1'>s</span>
+              </p>
+
+
+             <ul class="collection">
+                <li ng-repeat="com in affichArtMoyCom">
+                   <a href="#!" class="collection-item">{{ com.item }}<span class="badge">Moyenne des notes : {{ com.sommeNote/com.nbreNote }}</span></a>
+                </li>
+             </ul>
+
+              <p>
+                  Moyenne de la quantité (3et5) {{ moyenneArticleTroisCinq()|number:0 }}
+              </p>
+
+                <p>
+                    Moyenne des note des commentaires de tous les produits (3et5) {{ moyenneProduit()  }}
+                </p>
+
+                <button ng-click="removeAll()" type="button" class="waves-effect waves-light btn">
+                  <i class="material-icons">delete</i>Supprimer
+                  <span ng-if='checks.length >= 1'>{{ checks.length }}</span>
+                    <span ng-if='checks.length == 0'>les</span>
+                    boisson<span ng-if='checks.length > 1'>s</span></button>
+
+
+               <table class="table table-bordered">
+           <thead>
+             <tr>
+               <th>Action</th>
+               <th data-field="photo">Photo</th>
+               <th data-field="produit">Produit</th>
+               <th data-field="quantite">Quantite</th>
+               <th data-field="price">Prix</th>
+               <th data-field="reduction">Reduction</th>
+               <th data-field="comments">Commentaire</th>
+             </tr>
+           </thead>
+           <tbody>
+             <tr ng-repeat="panierBoisson in panierBoissons|orderBy:'price'">
+               <td>
+                 <input ng-model="ids[doc.provider.Id]" name="check[]" ng-change="selected(panierBoisson)" type="checkbox" id="check{{ $index }}" />
+                 <label for="check{{ $index }}">{{ $index + 1 }}</label>
+
+
+                 <button ng-click="removeBoisson(panierBoisson)" class="btn-floating btn-large waves-effect waves-light red" type="button" name="button">
+                   <i class="material-icons">delete</i>
+                 </button>
+               </td>
+               <td><img src="{{ panierBoisson.photo }}" alt="" /> </td>
+               <td><h4>{{ panierBoisson.item }}</h4></td>
+               <td>{{ panierBoisson.quantite }}</td>
+               <td><b>{{ panierBoisson.price }}</b> €</td>
+               <td>
+                <span ng-if="panierBoisson.reduction">{{ panierBoisson.reduction }} </span>
+                <span ng-if="!panierBoisson.reduction">Pas de reduction</span>
+              </td>
+               <td>
+                 <ul class="collection">
+                   <li class="collection-item" ng-repeat="comment in panierBoisson.comments">
+                    {{ comment.note }} /4     <br />
+                        {{ comment.content }} <br/>
+                   </li>
+                 </ul>
+               </td>
+             </tr>
+           </tbody>
+         </table>
+
+     </div>
+
+
+    <!-- Librairie Angular -->
+    <script src="bower_components/angular/angular.min.js" charset="utf-8"></script>
+
+
+    <!-- Librairie Angular i18n -->
+    <script src="bower_components/angular-i18n/angular-locale_fr-fr.js" charset="utf-8"></script>
+
+    <!-- Librairie Moment -->
+    <script src="bower_components/moment/min/moment-with-locales.min.js" charset="utf-8"></script>
+    <!-- Librairie Underscore -->
+    <script src="bower_components/underscore/underscore-min.js" charset="utf-8"></script>
+    <!-- Librairie Jquery -->
+    <script src="bower_components/jquery/dist/jquery.min.js" charset="utf-8"></script>
+    <!-- Librairie Materialize -->
+    <script src="bower_components/materialize/dist/js/materialize.min.js" charset="utf-8"></script>
+
+    <!-- Notre app -->
+    <script src="src/app.js" charset="utf-8"></script>
+
+    <!-- Notre controllers -->
+    <script src="src/controllers/boissons.controllers.js" charset="utf-8"></script>
+
+   </body>
+</html>

@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title></title>
+    <link rel="stylesheet" href="bower_components/animate.css/animate.min.css" charset="utf-8">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet" href="bower_components/materialize/dist/css/materialize.min.css" charset="utf-8">
+    <link rel="stylesheet" href="loading-bar.min.css" media="screen" title="no title" charset="utf-8">
+    <script type="text/javascript" src="loading-bar.min.js">
+    
+    </script>
+
+    <style media="screen">
+      select {
+        display:block;
+      }
+    </style>
+  </head>
+  <!-- Pour angular  tout le body est une application qui se nome MyPhoneApp-->
+  <!-- ng-x est une directive a angular -->
+  <body ng-app="profil">
+    <div id="loading-bar-container"></div>
+    <div class="container" ng-controller="Membre">
+      <div class="row">
+        <div class="col s2">
+        <label for="a$index">Nom {{nom}} : </label><input type="text" id="a$index" ng-model="nom" >
+        </div>
+        <div class="col s2">
+          <label for="a$index">Prenom {{prenom}} : </label><input type="text" id="a$index" ng-model="prenom" >
+        </div>
+        <div class="col s2">
+          <label for="a$index">age {{age}} : </label><input type="text" id="a$index" ng-model="age" >
+        </div>
+        <div class="col s2">
+          <label for="a$index">photo {{photo}} : </label><input type="text" id="a$index" ng-model="photo" >
+        </div>
+        <div class="col s2">
+          <label for="a$index">naissance {{naissance}} : </label><input type="text" id="a$index" ng-model="naissance" >
+        </div>
+        <div class="col s2">
+          <label for="a$index">noteBac {{noteBac}} : </label><input type="text" id="a$index" ng-model="noteBac" >
+        </div>
+        <div class="col s2">
+          <label for="a$index">genre {{genre}} : </label><input type="text" id="a$index" ng-model="genre" >
+        </div>
+        <div class="col s2">
+          <label for="a$index">ville {{ville}} : </label><input type="text" id="a$index" ng-model="ville" >
+        </div>
+        <div class="col s2">
+          <label for="a$index">biographie {{biographie}} : </label><input type="text" id="a$index" ng-model="biographie" >
+        </div>
+        <div class="col s2">
+          <label for="a$index">langue {{langue}} : </label><input type="text" id="a$index" ng-model="langue" >
+        </div>
+      </div>
+
+
+    <button type="button2" name="button2" ng-click="addUser()" onclick="Materialize.toast('Profil creer!', 4000)">Ajouter Profil</button>
+    <div class="row">
+      <div class="col s3">
+        <p class="range-field"> Filtrer par note: <br/>
+          <input type="range" id="tet5" min="0" max="20" ng-model="range" ng-change="filterBac(range)"/>
+
+
+      </p>
+      </div>
+      <div class="col s3">
+        Date naissance superrieur filtre
+        <input type="date" id="date1" placeholder="dd/mm/YYYY" ng-model="datesupp" ng-change="filterDateSelect(datesupp)" >
+        <label for="date1">{{datesupp}}</label>
+      </div>
+      <div class="col s3">
+        <p>
+          date par checkBox:
+        </p>
+        <ul>
+          <li ng-repeat="tranche in tablotrancheage">
+                  <input  ng-model="tranche.checker" value="{{ tranche.ageTranche }}"  type="checkbox" id="{{ tranche.ageTranche }}"/>
+                  <label for="{{ tranche.ageTranche }}">{{ tranche.ageTranche }} ans</label>
+
+          </li>
+        </ul>
+      </div>
+    </div>
+
+
+
+
+
+  <p>
+    Par tranche d'age:
+  </p>
+    <input type="radio" id="test4" name="age[]" ng-model="all[$index]" ng-click="filterAge(0)" />
+    <label for="test4">tout age</label>
+    <input type="radio" id="test5" name="age[]" ng-model="all[$index]" ng-click="filterAge(1)"/>
+    <label for="test5">filtrer par 10 a 20 ans</label>
+    <input type="radio" id="test6" name="age[]"  ng-model="all[$index]" ng-click="filterAge(2)"/>
+      <label for="test6">filtrer par 20 a 30 ans</label>
+      <input type="radio" id="test7" name="age[]" ng-model="all[$index]" ng-click="filterAge(3)"/>
+        <label for="test7">filtrer par 30 a 40 ans</label>
+    <p>Filtrage par Ville :</p>
+    <p>
+      <input name="group1" ng-model="query" type="radio" id="tet4" value="" />
+      <label for="tet4">Toutes Villes</label>
+      <input name="group1" type="radio" ng-model="query" id="tes1"  value="Nimes"/>
+      <label for="tes1">Nimes</label>
+      <input name="group1" type="radio" ng-model="query" id="tes2"  value="Paris" />
+      <label for="tes2">Paris</label>
+      <input class="with-gap" name="group1" ng-model="query" type="radio" id="tes3" value="Lyon" />
+      <label for="tes3">Lyon</label>
+    </p>
+    <p>
+      affiche Nationalité
+    </p>
+    <input  ng-model="afficheLg" value="false"  type="checkbox" id="afficheage"/>
+    <label for="afficheage">{{afficheLg}}</label>
+      <!-- <ul class="collection with-header">
+        <li class="collection-item" ng-repeat="member in listeMembre | filter: {ville: query} | range: agemin : agemax | dateSuperieur : compare | rangeBac: range | rangetranche: tablotrancheage | drapeauLg: tabloLangue: afficheLg" >
+          <div ng-class="{red: dessousmoyenne(member.noteBac)}">
+            Photo : <img src="{{member.photo}}" alt="" width="200" height="200"/><br/>
+            nom : {{member.nom}}<br/>
+            prenom : {{member.prenom}}<br/>
+            Age : {{member.age}}<br/>
+            Date naissance : {{member.naissance}}<br/>
+            <span ng-class="{red: member.noteBac < 10}">Note Bac : {{member.noteBac}}</span><br/>
+            <span ng-show="member.languephoto != null"><img src="{{member.languephoto}}" alt="languedrapeau" width="50" height="50"/><br></span>
+            Sexe : {{member.genre}}<br/>
+            Ville : {{member.ville}}<br/>
+            Biographie : {{member.biographie}}<br/>
+            Langue : {{member.langue}}<br/>
+            <button type="button" ng-click="removeUser(member)"> - </button>Kick him
+
+          </div>
+
+        </li>
+      <li><button type="button" name="button" ng-click="logmembre(listeMembre)">longueur tableau</button></li>
+      </ul> -->
+      <div>
+        <label for="querynom">Rechercche par nom</label><input type="text" id="querynom" ng-model="querynom">
+        <label for="querycodepostal">Rechercche par Code Postal</label><input type="text" id="querycodepostal" ng-model="querycodepostal" >
+        <div class=" col s12"><br/>
+
+
+
+
+      </div>
+      <div class="">
+        <!-- Switch -->
+        <div class="switch">
+          <label>
+            mineur
+            <input type="checkbox" ng-model="age18">
+            <span class="lever"></span>
+            majeur
+          </label><br/>
+          switch mise a undeffine :<button type="button" name="button" ng-click="age18 = null">Raz</button>
+        </div>
+      </div>
+
+
+<div >
+  <form name="myForm">
+    <label for="mySelect">Make a choice:</label>
+    <select ng-model="departementselect">
+      <option value="" selected >Selectioner Departement</option>
+      <option value="69" >Rhone</option>
+      <option value="75" >Paris</option>
+      <option value="30" >Gard</option>
+    </select>
+
+    <label for="mySelect">Make a choice:</label>
+    <select ng-model="orderbyselect">
+      <option value="" selected >Selectioner orderBy</option>
+      <option value="age" >Rhone</option>
+      <option value="nom" >Paris</option>
+      <option value="30" >Gard</option>
+    </select>
+
+    <label for="mySelect">Make a choice:</label>
+    <select ng-model="queryLimit" >
+      <option value="" selected >Selectioner orderBy</option>
+      <option value="5" >5</option>
+      <option value="10" >10</option>
+      <option value="15" >15</option>
+    </select>
+  </form>
+  <tt>option = {{queryLimit}} </tt><br/>
+  <div><button type="button" name="buttonNoteZero" ng-click="noteZeroAll()"></button>
+
+  </div>
+</div>
+
+
+
+
+        <div class="row">
+
+         <div class="col s12 m4 resultatok" ng-model="resultat" ng-repeat="member in listeMembre | limitTo: queryLimit| orderBy: 'orderbyselect'| rangenom: querynom |filter: {ville: query, codepostal: querycodepostal} | range: agemin : agemax | dateSuperieur : compare | rangeBac: range | rangetranche: tablotrancheage | drapeauLg: tabloLangue: afficheLg | switch18: age18 | moisbirth | departement: departementselect  ">
+           <!-- <div ng-if="introuvable">
+              Resultat Introuvable{{introuvable}}
+           </div> -->
+           <div class="card">
+             <div class="card-image">
+               <img src="{{member.photo}}">
+               <span class="card-title">{{member.nom}}</span>
+             </div>
+             <div class="card-content" ng-class="{red: member.noteBac < 10}">
+
+                 nom : {{member.nom}}<br/>
+                 prenom : {{member.prenom}}<br/>
+                 Age : {{member.age}}<br/>
+                 Date naissance : {{member.naissance}}<br/>
+                 <span ng-class="{red: member.noteBac < 10}">Note Bac : {{member.noteBac}}</span><br/>
+                 <span ng-show="member.languephoto != null"><img src="{{member.languephoto}}" alt="languedrapeau" width="50" height="50"/><br></span>
+                 Sexe : {{member.genre}}<br/>
+                 Ville : {{member.ville}}<br/>
+                 codepostal : {{member.codepostal}}<br/>
+                 Biographie : {{member.biographie}}<br/>
+                 Langue : {{member.langue}}<br/>
+                 <p ng-show="member.monthbirth"><i class="material-icons">access_time</i>Tu es née ce mois ci Félicitation</p>
+                 <!-- <input type="checkbox" id="btn{{$index}}" name="btn{{$index}}" ng-value="{{member.like}}" ng-model="settingLike[$index]" ng-change="affiche($index, settingLike[$index])"><label for="btn{{$index}}">Like</label><br/> -->
+                 <!-- <input type="checkbox" id="btnn{{$index}}" name="btnn{{$index}}" ng-model="member.like" ng-change="affiche($index, {{member.like}})"><label for="btnn{{$index}}"><span ng-show="member.like"></span>Like</label><br/> -->
+                 <a href="" ng-if="member.like == true" ng-click="LikeFunction(member)"><i class="Moyenne material-icons green-text">thumb_up</i>Like</a>
+                 <a href="" ng-if="member.like == false" ng-click="LikeFunction(member)"><i class="Moyenne material-icons grey-text">thumb_up</i>Like</a><br/>
+
+                 <input type="checkbox" id="btn{{$index}}" name="btn{{$index}}" ng-model="member.statutUp" ng-change="affiche($index, {{member.like}})"><label for="btn{{$index}}">+1</label><br/>
+                 <button type="button" ng-click="addFavoris($index)"> Add Favoris </button><br/>
+                 <button type="button" ng-click="removeUser(member)"> - </button>Kick him
+
+               </div>
+             <div class="card-action">
+               <a href="#">This is a link</a>
+             </div>
+             </div>
+             </div>
+
+           </div>
+           <div class="collection">
+             <button type="button" ng-click="removeAllLike()"> remove all like </button>
+           </div>
+           <div class="collection">
+             <a href="#!" class="collection-item">Nbr d'utilisateur<span ng-if="nbruser > 1 && nbruser != 0">s</span><span class="badge">{{raffraichieUser()}}</span></a>
+           </div>
+           <div class="collection" ng-hide="listeMembre.length == 0">
+             <a href="#!" class="collection-item">Moyenne d'age des users<span class="badge">{{moyennettage()}} ans</span></a>
+           </div>
+           <div class="collection" >
+             <a href="#!" class="collection-item">{{messageMajoriteAge}}</a>
+           </div>
+           <div class="collection" ng-show="listeMembre.length == 0">
+             <a href="#!" class="collection-item">Il n'y a plus d'user</a>
+           </div>
+           <div class="collection" >
+             <a href="#!" class="collection-item"> nombre de Favoris user : <span>{{favoris.length}} </span><button type="button" class="right" name="button" ng-click="clearFavoris()">Vider Favoris</button></a>
+           </div>
+           <div class="collection" ng-show="favoris.length > 0">
+             <p ng-repeat="id in favoris">{{listeMembre[id].nom}} <button type="button" name="buttonRemoveUserFav" ng-click="removeUseFavoris(id)"> Remove User</button></p>
+           </div>
+         </div>
+    </div>
+
+
+
+
+
+
+
+
+
+    <script src="ngstatmin/ng-stats.min.js"></script>
+
+    <script src="bower_components/angular/angular.min.js"></script>
+    <script src="bower_components/moment/min/moment-with-locales.min.js"></script>
+    <script src="bower_components/underscore/underscore-min.js"></script>
+    <script src="bower_components/jquery/dist/jquery.min.js"></script>
+    <script src="http://momentjs.com/downloads/moment-with-locales.js"></script>
+    <script src="bower_components/materialize/dist/js/materialize.min.js"></script>
+
+    <script type="text/javascript">
+      $(document).ready(function(){
+        javascript: (function() {var a = document.createElement("script");a.src = "https://rawgit.com/kentcdodds/ng-stats/master/dist/ng-stats.js";a.onload=function(){window.showAngularStats()};document.head.appendChild(a)})();
+        $('.tooltipped').tooltip({delay: 50});
+
+
+        // This will remove the tooltip functionality for the buttons on this page
+        $('.tooltipped').tooltip('remove');
+
+      });
+    </script>
+    <script src="App/app.js" charset="utf-8"></script>
+    <script src="filtre/filtre.js" charset="utf-8"></script>
+    <script src="Module/ModuleCanetMembre.js" charset="utf-8"></script>
+  </body>
+</html>
